@@ -193,3 +193,4 @@ with tabs[1]:
         combined.to_csv(csv_buffer)
         st.download_button("Download LUC CSV", data=csv_buffer,
                            file_name="luc_final_multitab.csv", mime="text/csv")
+        
