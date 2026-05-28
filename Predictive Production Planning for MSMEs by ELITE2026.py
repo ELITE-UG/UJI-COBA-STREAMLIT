@@ -44,25 +44,39 @@ st.markdown("""
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* 2. Main background — warm cream */
-    .main, [data-testid="stAppViewContainer"] {
+    /* 2. ROOT — force light background & dark text everywhere */
+    html, body,
+    .main,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewContainer"] > section,
+    [data-testid="block-container"] {
         background: linear-gradient(160deg, #FDF8F0 0%, #F5ECD7 100%) !important;
+        color: #2C1810 !important;
     }
 
-    /* Override Streamlit dark default for all text nodes */
-    [data-testid="stAppViewContainer"] * {
-        color: #2C1810;
+    /* Force ALL text in main area to be dark */
+    [data-testid="stAppViewContainer"] p,
+    [data-testid="stAppViewContainer"] span,
+    [data-testid="stAppViewContainer"] div,
+    [data-testid="stAppViewContainer"] label,
+    [data-testid="stAppViewContainer"] li,
+    [data-testid="stAppViewContainer"] td,
+    [data-testid="stAppViewContainer"] th {
+        color: #2C1810 !important;
     }
 
     /* 3. Sidebar — white with maroon accents */
-    [data-testid="stSidebar"] {
+    [data-testid="stSidebar"],
+    [data-testid="stSidebar"] > div {
         background-color: #FFFFFF !important;
         border-right: 3px solid #8B1A2A !important;
     }
 
     [data-testid="stSidebar"] label,
     [data-testid="stSidebar"] .stWidgetLabel p,
-    [data-testid="stSidebar"] p {
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] div {
         color: #3D1A12 !important;
         font-weight: 600 !important;
         font-size: 0.88rem !important;
@@ -81,14 +95,16 @@ st.markdown("""
         font-family: 'Playfair Display', serif !important;
     }
 
-    /* 4. File uploader — cream with maroon dashed border */
+    /* 4. File uploader */
     [data-testid="stFileUploader"] {
         background-color: #FDF8F0 !important;
         border: 2px dashed #8B1A2A !important;
         border-radius: 10px !important;
         padding: 15px !important;
     }
-
+    [data-testid="stFileUploader"] > div {
+        background-color: transparent !important;
+    }
     [data-testid="stFileUploader"] button {
         background: linear-gradient(135deg, #6B0F1A 0%, #A52535 100%) !important;
         border: none !important;
@@ -96,13 +112,11 @@ st.markdown("""
         padding: 8px 16px !important;
         box-shadow: 0 4px 8px rgba(107, 15, 26, 0.25) !important;
     }
-
     [data-testid="stFileUploader"] button * {
         font-size: 0px !important;
         color: transparent !important;
         display: none !important;
     }
-
     [data-testid="stFileUploader"] button::after {
         content: "Choose Your File" !important;
         color: #FFFFFF !important;
@@ -110,17 +124,12 @@ st.markdown("""
         font-weight: 600 !important;
         display: block !important;
     }
-
-    [data-testid="stFileUploader"] text {
-        fill: #6B0F1A !important;
-    }
-    [data-testid="stFileUploader"] div {
-        color: #3D1A12 !important;
-        font-weight: 500;
-    }
+    [data-testid="stFileUploader"] text { fill: #6B0F1A !important; }
+    [data-testid="stFileUploader"] small,
+    [data-testid="stFileUploader"] span { color: #5A3A2A !important; font-weight: 500 !important; }
 
     /* 5. Main headings */
-    .main h1 {
+    .main h1, h1 {
         color: #6B0F1A !important;
         -webkit-text-fill-color: #6B0F1A !important;
         font-weight: 800 !important;
@@ -129,43 +138,43 @@ st.markdown("""
         font-family: 'Playfair Display', serif !important;
         letter-spacing: 0.3px;
     }
-
-    .main h2, .main h3 {
+    .main h2, h2,
+    .main h3, h3 {
         color: #8B1A2A !important;
+        -webkit-text-fill-color: #8B1A2A !important;
         font-family: 'Playfair Display', serif !important;
         font-weight: 700 !important;
     }
+    .main p, p { color: #4A2C20 !important; font-weight: 500; }
 
-    .main p {
-        color: #4A2C20 !important;
-        font-weight: 500;
-    }
-
-    /* 6. Metric cards — white with maroon left border */
-    [data-testid="stMetricValue"] {
+    /* 6. Metric cards */
+    [data-testid="stMetric"] {
         background: #FFFFFF !important;
-        color: #6B0F1A !important;
-        font-weight: 700 !important;
-        font-size: 1.9rem !important;
         border-radius: 10px !important;
-        padding: 14px 18px !important;
-        box-shadow: 0 4px 12px rgba(107, 15, 26, 0.08) !important;
         border-left: 5px solid #8B1A2A !important;
         border-top: 1px solid #EDE0C4 !important;
         border-right: 1px solid #EDE0C4 !important;
         border-bottom: 1px solid #EDE0C4 !important;
+        padding: 12px 16px !important;
+        box-shadow: 0 4px 12px rgba(107, 15, 26, 0.08) !important;
     }
-
-    [data-testid="stMetricLabel"] {
+    [data-testid="stMetricValue"],
+    [data-testid="stMetricValue"] > div {
+        color: #6B0F1A !important;
+        font-weight: 700 !important;
+        font-size: 1.9rem !important;
+    }
+    [data-testid="stMetricLabel"],
+    [data-testid="stMetricLabel"] > div,
+    [data-testid="stMetricLabel"] p {
         color: #6B0F1A !important;
         font-weight: 700 !important;
         font-size: 0.88rem !important;
-        margin-left: 5px !important;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
-    /* 7. Primary action button — maroon */
+    /* 7. Buttons */
     .stButton>button {
         width: 100%;
         border-radius: 8px;
@@ -179,20 +188,35 @@ st.markdown("""
         transition: all 0.2s ease;
         letter-spacing: 0.4px;
     }
-
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 16px rgba(107, 15, 26, 0.4);
         background: linear-gradient(135deg, #8B1A2A 0%, #6B0F1A 100%) !important;
         color: #FFFFFF !important;
     }
+    .stButton>button span, .stButton>button p { color: #FFFFFF !important; }
 
-    /* 8. DataFrames — white with cream border */
-    .stDataFrame {
+    /* 8. DataFrames / tables */
+    .stDataFrame,
+    .stDataFrame > div,
+    [data-testid="stDataFrame"],
+    [data-testid="stDataFrame"] > div {
         background-color: #FFFFFF !important;
         border: 2px solid #EDE0C4 !important;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(107, 15, 26, 0.05);
+        border-radius: 10px !important;
+        box-shadow: 0 2px 8px rgba(107, 15, 26, 0.05) !important;
+    }
+    /* Table cells: force light background & dark text */
+    .stDataFrame iframe,
+    [data-testid="stDataFrame"] iframe { background: #FFFFFF !important; }
+
+    /* Glide table overrides (Streamlit internal) */
+    .glideDataEditor, .gdg-scrolling-shadow, .dvn-scroller { 
+        background: #FFFFFF !important; 
+    }
+    .gdg-style { 
+        background: #FDF8F0 !important; 
+        color: #2C1810 !important; 
     }
 
     /* 9. Tabs */
@@ -200,59 +224,122 @@ st.markdown("""
         font-weight: 700 !important;
         color: #6B4035 !important;
         font-size: 0.92rem !important;
+        background: transparent !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] {
         color: #6B0F1A !important;
         border-bottom-color: #6B0F1A !important;
     }
+    [data-testid="stTabs"] [role="tablist"] {
+        background: transparent !important;
+        border-bottom: 2px solid #EDE0C4 !important;
+    }
 
     /* 10. Dividers */
-    hr {
-        margin: 1.5rem 0 !important;
-        border-color: #D9C9B0 !important;
-    }
+    hr { margin: 1.5rem 0 !important; border-color: #D9C9B0 !important; }
 
-    /* 11. Info / warning boxes */
-    [data-testid="stAlert"] {
+    /* 11. Info / warning / success boxes */
+    [data-testid="stAlert"],
+    [data-testid="stAlert"] > div {
         background-color: #FDF8F0 !important;
         border-color: #8B1A2A !important;
-        color: #2C1810 !important;
         border-radius: 8px !important;
     }
+    [data-testid="stAlert"] p,
+    [data-testid="stAlert"] span { color: #2C1810 !important; }
 
-    /* 12. Radio & slider accent */
-    [data-testid="stRadio"] label span,
-    [data-testid="stSlider"] div[role="slider"] {
-        accent-color: #8B1A2A !important;
+    /* 12. Slider */
+    [data-testid="stSlider"] > div > div > div > div {
+        background: #8B1A2A !important;
     }
+    [data-testid="stSlider"] span { color: #3D1A12 !important; }
 
-    /* 13. Number input buttons */
+    /* 13. Number input */
+    [data-testid="stNumberInput"] input {
+        background: #FFFFFF !important;
+        color: #2C1810 !important;
+        border: 1px solid #C9A882 !important;
+        border-radius: 6px !important;
+    }
     [data-testid="stNumberInput"] button {
+        background: #FDF8F0 !important;
         color: #6B0F1A !important;
         border-color: #8B1A2A !important;
     }
+    [data-testid="stNumberInput"] span { color: #2C1810 !important; }
 
-    /* 14. Expander */
+    /* 14. Select / Dropdown */
+    [data-testid="stSelectbox"] > div > div,
+    [data-baseweb="select"] > div {
+        background-color: #FFFFFF !important;
+        border: 1px solid #C9A882 !important;
+        color: #2C1810 !important;
+        border-radius: 6px !important;
+    }
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] div { color: #2C1810 !important; }
+    [data-baseweb="popover"] ul,
+    [data-baseweb="menu"] { background: #FFFFFF !important; }
+    [data-baseweb="menu"] li { color: #2C1810 !important; }
+    [data-baseweb="menu"] li:hover { background: #F5ECD7 !important; }
+
+    /* 15. Radio buttons */
+    [data-testid="stRadio"] label { color: #3D1A12 !important; }
+    [data-testid="stRadio"] span { color: #3D1A12 !important; }
+
+    /* 16. Text input */
+    [data-testid="stTextInput"] input {
+        background: #FFFFFF !important;
+        color: #2C1810 !important;
+        border: 1px solid #C9A882 !important;
+        border-radius: 6px !important;
+    }
+
+    /* 17. Expander */
     [data-testid="stExpander"] {
         background-color: #FFFFFF !important;
         border: 1px solid #EDE0C4 !important;
         border-radius: 8px !important;
     }
-    [data-testid="stExpander"] summary {
+    [data-testid="stExpander"] summary,
+    [data-testid="stExpander"] summary span,
+    [data-testid="stExpander"] summary p { color: #6B0F1A !important; font-weight: 600 !important; }
+
+    /* 18. Caption */
+    [data-testid="stCaptionContainer"] p { color: #7A5C50 !important; }
+
+    /* 19. Download button */
+    [data-testid="stDownloadButton"] button {
+        background: #FFFFFF !important;
         color: #6B0F1A !important;
-        font-weight: 600 !important;
+        border: 2px solid #8B1A2A !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+    }
+    [data-testid="stDownloadButton"] button:hover {
+        background: #F5ECD7 !important;
+    }
+    [data-testid="stDownloadButton"] button span { color: #6B0F1A !important; }
+
+    /* 20. Subheader special — bold maroon with bottom border */
+    [data-testid="stHeadingWithActionElements"] h2,
+    [data-testid="stHeadingWithActionElements"] h3 {
+        color: #6B0F1A !important;
+        -webkit-text-fill-color: #6B0F1A !important;
     }
 
-    /* 15. Subheader / caption text */
-    [data-testid="stCaptionContainer"] p {
-        color: #7A5C50 !important;
+    /* 21. Container borders */
+    [data-testid="stVerticalBlock"] [data-testid="stVerticalBlockBorderWrapper"] {
+        background: #FFFFFF !important;
+        border: 1px solid #EDE0C4 !important;
+        border-radius: 10px !important;
     }
 
-    /* 16. Container/card border */
-    [data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"] {
-        background: #FFFFFF;
-        border-radius: 10px;
-    }
+    /* 22. Markdown text & code */
+    .stMarkdown p, .stMarkdown span, .stMarkdown li { color: #2C1810 !important; }
+    .stMarkdown strong { color: #6B0F1A !important; }
+    code, pre { background: #FDF8F0 !important; color: #6B0F1A !important; }
+
     </style>
     """, unsafe_allow_html=True)
 
