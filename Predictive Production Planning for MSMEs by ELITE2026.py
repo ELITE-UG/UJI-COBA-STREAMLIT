@@ -185,43 +185,6 @@ st.markdown("""
         margin: 1.5rem 0 !important;
         border-color: #E2E8F0 !important;
     }
-
-    /* 8. Sembunyikan tombol collapse bawaan Streamlit */
-    [data-testid="stSidebarCollapseButton"],
-    [data-testid="collapsedControl"] {
-        display: none !important;
-        visibility: hidden !important;
-        width: 0 !important;
-        height: 0 !important;
-        pointer-events: none !important;
-        position: absolute !important;
-    }
-
-    /* Tombol « di dalam sidebar — override global .stButton merah */
-    [data-testid="stSidebar"] .stButton > button {
-        width: 34px !important;
-        height: 34px !important;
-        min-width: 34px !important;
-        border-radius: 50% !important;
-        background: linear-gradient(135deg, #4F46E5, #7C3AED) !important;
-        color: #FFFFFF !important;
-        font-size: 1.1rem !important;
-        font-weight: 900 !important;
-        padding: 0 !important;
-        border: none !important;
-        box-shadow: 0 3px 10px rgba(79,70,229,0.45) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        transition: all 0.2s ease !important;
-        line-height: 1 !important;
-        transform: none !important;
-    }
-    [data-testid="stSidebar"] .stButton > button:hover {
-        background: linear-gradient(135deg, #6366F1, #A855F7) !important;
-        box-shadow: 0 5px 16px rgba(99,102,241,0.6) !important;
-        transform: scale(1.1) !important;
-    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -882,15 +845,7 @@ st.markdown(
 if not STATSMODELS_AVAILABLE:
     st.warning("⚠️ The statsmodels library is not available. Exponential Smoothing and ARIMA methods will fall back to Naive Forecast.")
 
-# ── Sidebar selalu dirender agar widget values tetap ada ─────────────────
 with st.sidebar:
-    # Tombol « tutup sidebar — di baris paling atas sidebar
-    c1, c2 = st.columns([8, 1])
-    with c2:
-        if st.button("«", key="close_sidebar_btn", help="Tutup Sidebar"):
-            st.session_state["_sidebar_hidden"] = True
-            st.rerun()
-
     st.header("🔮 Input Settings")
     uploaded_file = st.file_uploader("Upload Historical Data (.csv / .xlsx)", type=["csv", "xlsx"])
     st.divider()
@@ -923,58 +878,6 @@ with st.sidebar:
     arima_q = st.number_input("Order q (MA)", min_value=0, max_value=5, value=1, step=1)
 
     process_button = st.button("🚀 Run Process", type="primary")
-
-# ── CSS: sembunyikan/tampilkan sidebar berdasarkan session_state ──────────
-if st.session_state.get("_sidebar_hidden", False):
-    st.markdown("""
-        <style>
-        [data-testid="stSidebar"] { display: none !important; }
-        [data-testid="stSidebarCollapseButton"] { display: none !important; }
-        [data-testid="collapsedControl"] { display: none !important; }
-        </style>
-    """, unsafe_allow_html=True)
-    # Tombol » buka sidebar — fixed di pojok kiri atas
-    st.markdown("""
-        <style>
-        #open-btn-wrap {
-            position: fixed; top: 14px; left: 14px; z-index: 99999;
-        }
-        #open-btn-wrap button {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: linear-gradient(135deg,#4F46E5,#7C3AED);
-            color: #fff; font-size: 1.1rem; font-weight: 900;
-            font-family: Arial, sans-serif; border: none; cursor: pointer;
-            box-shadow: 0 3px 12px rgba(79,70,229,0.5);
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease;
-        }
-        #open-btn-wrap button:hover {
-            background: linear-gradient(135deg,#6366F1,#A855F7);
-            transform: scale(1.1);
-        }
-        </style>
-        <div id="open-btn-wrap">
-            <button onclick="
-                (function(){
-                    var s=window.parent.document.querySelector('[data-testid=stSidebar]');
-                    if(s){
-                        s.style.display='';
-                        s.style.transform='translateX(0)';
-                        s.style.transition='transform 0.3s ease';
-                    }
-                    var ctrl=window.parent.document.querySelector('[data-testid=collapsedControl] button');
-                    if(ctrl) ctrl.click();
-                })()
-            ">&#187;</button>
-        </div>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-        [data-testid="stSidebarCollapseButton"] { display: none !important; }
-        [data-testid="collapsedControl"] { display: none !important; }
-        </style>
-    """, unsafe_allow_html=True)
 
 
 if uploaded_file is None:
