@@ -187,67 +187,76 @@ st.markdown("""
     }
 
     /* 8. Sidebar Collapse/Expand Button Fix */
-    /* Target the collapse button container */
+    /* font-size:0 menyembunyikan text node "double_arrow_right" secara langsung */
     [data-testid="stSidebarCollapseButton"] button,
-    [data-testid="collapsedControl"] button,
-    button[kind="headerNoPadding"],
-    [data-testid="stSidebar"] button[aria-label*="collapse"],
-    [data-testid="stSidebar"] button[aria-label*="sidebar"] {
+    [data-testid="collapsedControl"] button {
         background: #4F46E5 !important;
         border: none !important;
         border-radius: 50% !important;
         width: 36px !important;
         height: 36px !important;
-        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4) !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        box-shadow: 0 2px 10px rgba(79, 70, 229, 0.45) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         cursor: pointer !important;
-        transition: background 0.2s ease !important;
+        transition: background 0.2s ease, box-shadow 0.2s ease !important;
         padding: 0 !important;
+        font-size: 0 !important;
+        color: transparent !important;
+        overflow: hidden !important;
     }
 
     [data-testid="stSidebarCollapseButton"] button:hover,
     [data-testid="collapsedControl"] button:hover {
         background: #6366F1 !important;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5) !important;
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.55) !important;
+        transform: scale(1.08) !important;
     }
 
-    /* Hide the Material icon SVG/text that renders as "double_arrow_right" */
-    [data-testid="stSidebarCollapseButton"] button svg,
-    [data-testid="collapsedControl"] button svg,
-    [data-testid="stSidebarCollapseButton"] button span,
-    [data-testid="collapsedControl"] button span {
+    /* Sembunyikan semua child element (SVG, span, icon) di dalam tombol */
+    [data-testid="stSidebarCollapseButton"] button *,
+    [data-testid="collapsedControl"] button * {
         display: none !important;
+        visibility: hidden !important;
     }
 
-    /* Show « when sidebar is open (collapse), » when closed (expand) */
+    /* Tampilkan << saat sidebar terbuka */
     [data-testid="stSidebarCollapseButton"] button::after {
-        content: "«" !important;
+        content: "\00AB" !important;
         color: #FFFFFF !important;
-        font-size: 1.2rem !important;
-        font-weight: 700 !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        display: block !important;
+        font-size: 1.15rem !important;
+        font-weight: 800 !important;
+        font-family: Arial, sans-serif !important;
+        display: flex !important;
+        visibility: visible !important;
+        align-items: center !important;
+        justify-content: center !important;
         line-height: 1 !important;
     }
 
+    /* Tampilkan >> saat sidebar tertutup */
     [data-testid="collapsedControl"] button::after {
-        content: "»" !important;
+        content: "\00BB" !important;
         color: #FFFFFF !important;
-        font-size: 1.2rem !important;
-        font-weight: 700 !important;
-        font-family: 'Plus Jakarta Sans', sans-serif !important;
-        display: block !important;
+        font-size: 1.15rem !important;
+        font-weight: 800 !important;
+        font-family: Arial, sans-serif !important;
+        display: flex !important;
+        visibility: visible !important;
+        align-items: center !important;
+        justify-content: center !important;
         line-height: 1 !important;
     }
 
-    /* Ensure the collapse button is NOT affected by the global .stButton rule */
-    [data-testid="stSidebarCollapseButton"] .stButton > button,
-    [data-testid="collapsedControl"] .stButton > button {
+    /* Override global .stButton agar tidak menimpa tombol collapse */
+    [data-testid="stSidebarCollapseButton"] > button,
+    [data-testid="collapsedControl"] > button {
         width: 36px !important;
-        background: #4F46E5 !important;
         border-radius: 50% !important;
+        background: #4F46E5 !important;
     }
     </style>
     """, unsafe_allow_html=True)
