@@ -186,77 +186,44 @@ st.markdown("""
         border-color: #E2E8F0 !important;
     }
 
-    /* 8. Sidebar Collapse/Expand Button Fix */
-    /* font-size:0 menyembunyikan text node "double_arrow_right" secara langsung */
-    [data-testid="stSidebarCollapseButton"] button,
-    [data-testid="collapsedControl"] button {
-        background: #4F46E5 !important;
-        border: none !important;
-        border-radius: 50% !important;
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-        min-height: 36px !important;
-        box-shadow: 0 2px 10px rgba(79, 70, 229, 0.45) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        cursor: pointer !important;
-        transition: background 0.2s ease, box-shadow 0.2s ease !important;
-        padding: 0 !important;
-        font-size: 0 !important;
-        color: transparent !important;
-        overflow: hidden !important;
-    }
-
-    [data-testid="stSidebarCollapseButton"] button:hover,
-    [data-testid="collapsedControl"] button:hover {
-        background: #6366F1 !important;
-        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.55) !important;
-        transform: scale(1.08) !important;
-    }
-
-    /* Sembunyikan semua child element (SVG, span, icon) di dalam tombol */
-    [data-testid="stSidebarCollapseButton"] button *,
-    [data-testid="collapsedControl"] button * {
+    /* 8. Sembunyikan tombol collapse bawaan Streamlit */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"] {
         display: none !important;
         visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
     }
 
-    /* Tampilkan << saat sidebar terbuka */
-    [data-testid="stSidebarCollapseButton"] button::after {
-        content: "\00AB" !important;
-        color: #FFFFFF !important;
-        font-size: 1.15rem !important;
-        font-weight: 800 !important;
-        font-family: Arial, sans-serif !important;
-        display: flex !important;
-        visibility: visible !important;
-        align-items: center !important;
-        justify-content: center !important;
-        line-height: 1 !important;
+    /* Custom toggle button */
+    #sidebar-toggle-btn {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 99999;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4F46E5, #7C3AED);
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 900;
+        font-family: Arial, sans-serif;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 12px rgba(79,70,229,0.5);
+        transition: all 0.2s ease;
+        line-height: 1;
+        user-select: none;
     }
-
-    /* Tampilkan >> saat sidebar tertutup */
-    [data-testid="collapsedControl"] button::after {
-        content: "\00BB" !important;
-        color: #FFFFFF !important;
-        font-size: 1.15rem !important;
-        font-weight: 800 !important;
-        font-family: Arial, sans-serif !important;
-        display: flex !important;
-        visibility: visible !important;
-        align-items: center !important;
-        justify-content: center !important;
-        line-height: 1 !important;
-    }
-
-    /* Override global .stButton agar tidak menimpa tombol collapse */
-    [data-testid="stSidebarCollapseButton"] > button,
-    [data-testid="collapsedControl"] > button {
-        width: 36px !important;
-        border-radius: 50% !important;
-        background: #4F46E5 !important;
+    #sidebar-toggle-btn:hover {
+        background: linear-gradient(135deg, #6366F1, #A855F7);
+        box-shadow: 0 5px 18px rgba(99,102,241,0.6);
+        transform: scale(1.1);
     }
     </style>
     """, unsafe_allow_html=True)
@@ -893,6 +860,50 @@ def convert_full_comparison_excel(comparison_df, details_dict, future_labels, fu
     return output.getvalue()
 
 # --- MAIN DASHBOARD INTERFACE ---
+
+# Inject custom sidebar toggle button (JS)
+st.markdown(
+    """
+    <button id="sidebar-toggle-btn" title="Toggle Sidebar">&#171;</button>
+    <script>
+    (function() {
+        function initToggle() {
+            var btn = document.getElementById("sidebar-toggle-btn");
+            if (!btn) return;
+
+            var sidebar = window.parent.document.querySelector("[data-testid=stSidebar]");
+            var isOpen = true;
+
+            btn.addEventListener("click", function() {
+                if (!sidebar) {
+                    sidebar = window.parent.document.querySelector("[data-testid=stSidebar]");
+                }
+                if (sidebar) {
+                    isOpen = !isOpen;
+                    sidebar.style.transition = "transform 0.3s ease, width 0.3s ease";
+                    if (isOpen) {
+                        sidebar.style.transform = "translateX(0)";
+                        sidebar.style.width = "";
+                        btn.innerHTML = "&#171;";
+                        btn.style.left = "14px";
+                    } else {
+                        sidebar.style.transform = "translateX(-110%)";
+                        btn.innerHTML = "&#187;";
+                        btn.style.left = "14px";
+                    }
+                }
+            });
+        }
+        if (document.readyState === "complete") {
+            setTimeout(initToggle, 800);
+        } else {
+            window.addEventListener("load", function() { setTimeout(initToggle, 800); });
+        }
+    })();
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- Logo + Title Header ---
 st.markdown(
