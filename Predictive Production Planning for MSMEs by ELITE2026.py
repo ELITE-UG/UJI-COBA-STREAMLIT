@@ -185,6 +185,70 @@ st.markdown("""
         margin: 1.5rem 0 !important;
         border-color: #E2E8F0 !important;
     }
+
+    /* 8. Sidebar Collapse/Expand Button Fix */
+    /* Target the collapse button container */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button,
+    button[kind="headerNoPadding"],
+    [data-testid="stSidebar"] button[aria-label*="collapse"],
+    [data-testid="stSidebar"] button[aria-label*="sidebar"] {
+        background: #4F46E5 !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 36px !important;
+        height: 36px !important;
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        transition: background 0.2s ease !important;
+        padding: 0 !important;
+    }
+
+    [data-testid="stSidebarCollapseButton"] button:hover,
+    [data-testid="collapsedControl"] button:hover {
+        background: #6366F1 !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5) !important;
+    }
+
+    /* Hide the Material icon SVG/text that renders as "double_arrow_right" */
+    [data-testid="stSidebarCollapseButton"] button svg,
+    [data-testid="collapsedControl"] button svg,
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span {
+        display: none !important;
+    }
+
+    /* Show « when sidebar is open (collapse), » when closed (expand) */
+    [data-testid="stSidebarCollapseButton"] button::after {
+        content: "«" !important;
+        color: #FFFFFF !important;
+        font-size: 1.2rem !important;
+        font-weight: 700 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+
+    [data-testid="collapsedControl"] button::after {
+        content: "»" !important;
+        color: #FFFFFF !important;
+        font-size: 1.2rem !important;
+        font-weight: 700 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+
+    /* Ensure the collapse button is NOT affected by the global .stButton rule */
+    [data-testid="stSidebarCollapseButton"] .stButton > button,
+    [data-testid="collapsedControl"] .stButton > button {
+        width: 36px !important;
+        background: #4F46E5 !important;
+        border-radius: 50% !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
