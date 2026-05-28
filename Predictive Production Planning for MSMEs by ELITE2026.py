@@ -186,58 +186,60 @@ st.markdown("""
         border-color: #E2E8F0 !important;
     }
 
-    /* 8. Sembunyikan tombol bawaan Streamlit (pakai tombol custom di dalam sidebar) */
-    [data-testid="stSidebarCollapseButton"] {
+    /* 8. Sembunyikan TOTAL tombol collapse/expand bawaan Streamlit */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"] {
         display: none !important;
         visibility: hidden !important;
         width: 0 !important;
         height: 0 !important;
         pointer-events: none !important;
+        position: absolute !important;
     }
 
-    /* Tombol expand (saat sidebar tertutup) — styling ulang collapsedControl */
-    [data-testid="collapsedControl"] {
-        position: fixed !important;
-        top: 12px !important;
-        left: 12px !important;
-        z-index: 99999 !important;
+    /* Tombol « tutup sidebar (native st.button di dalam sidebar) */
+    [data-testid="stSidebar"] .stButton > button {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, #4F46E5, #7C3AED) !important;
+        color: #FFFFFF !important;
+        font-size: 1rem !important;
+        font-weight: 900 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: 0 3px 10px rgba(79,70,229,0.45) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.2s ease !important;
+        line-height: 1 !important;
     }
-    [data-testid="collapsedControl"] button {
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: linear-gradient(135deg, #6366F1, #A855F7) !important;
+        box-shadow: 0 5px 16px rgba(99,102,241,0.6) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* Tombol » buka sidebar (fixed di pojok kiri atas, muncul saat sidebar tertutup) */
+    [data-testid="stMainBlockContainer"] > div:first-child .stButton > button {
+        position: fixed !important;
+        top: 14px !important;
+        left: 14px !important;
+        z-index: 99999 !important;
         width: 36px !important;
         height: 36px !important;
         min-width: 36px !important;
         border-radius: 50% !important;
         background: linear-gradient(135deg, #4F46E5, #7C3AED) !important;
+        color: #FFFFFF !important;
+        font-size: 1rem !important;
+        font-weight: 900 !important;
+        padding: 0 !important;
         border: none !important;
         box-shadow: 0 3px 12px rgba(79,70,229,0.5) !important;
-        cursor: pointer !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 0 !important;
-        color: transparent !important;
-        overflow: hidden !important;
         transition: all 0.2s ease !important;
-    }
-    [data-testid="collapsedControl"] button:hover {
-        background: linear-gradient(135deg, #6366F1, #A855F7) !important;
-        box-shadow: 0 5px 16px rgba(99,102,241,0.6) !important;
-        transform: scale(1.1) !important;
-    }
-    [data-testid="collapsedControl"] button * {
-        display: none !important;
-        visibility: hidden !important;
-    }
-    [data-testid="collapsedControl"] button::after {
-        content: "\00BB" !important;
-        color: #FFFFFF !important;
-        font-size: 1.1rem !important;
-        font-weight: 900 !important;
-        font-family: Arial, sans-serif !important;
-        display: block !important;
-        visibility: visible !important;
-        line-height: 1 !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -899,44 +901,45 @@ st.markdown(
 if not STATSMODELS_AVAILABLE:
     st.warning("⚠️ The statsmodels library is not available. Exponential Smoothing and ARIMA methods will fall back to Naive Forecast.")
 
-with st.sidebar:
-    # Tombol tutup sidebar (di dalam sidebar, pojok atas)
+# ── Session state untuk sidebar toggle ──────────────────────────────────
+if "sidebar_open" not in st.session_state:
+    st.session_state.sidebar_open = True
+
+# Tombol buka sidebar di main page (muncul saat sidebar tertutup)
+if not st.session_state.sidebar_open:
     st.markdown(
         """
         <style>
-        div[data-testid="stSidebar"] > div:first-child {
-            padding-top: 10px !important;
-        }
-        .sidebar-close-btn-wrap {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 6px;
-        }
+        div[data-testid="stSidebar"] { display: none !important; }
+        #open-sidebar-area { position: fixed; top: 14px; left: 14px; z-index: 99999; }
         </style>
-        <div class="sidebar-close-btn-wrap">
-            <button onclick="
-                var sidebar = window.parent.document.querySelector('[data-testid=stSidebar]');
-                var collapseBtn = window.parent.document.querySelector('[data-testid=stSidebarCollapseButton] button');
-                if (collapseBtn) { collapseBtn.click(); }
-                else if (sidebar) { sidebar.style.transform = 'translateX(-110%)'; sidebar.style.transition = 'transform 0.3s ease'; }
-            "
-            style="
-                width:34px; height:34px; border-radius:50%;
-                background:linear-gradient(135deg,#4F46E5,#7C3AED);
-                color:#fff; font-size:1rem; font-weight:900;
-                font-family:Arial,sans-serif; border:none; cursor:pointer;
-                display:flex; align-items:center; justify-content:center;
-                box-shadow:0 3px 10px rgba(79,70,229,0.45);
-                transition:all 0.2s ease;
-            "
-            title="Tutup Sidebar"
-            onmouseover="this.style.transform='scale(1.12)';this.style.background='linear-gradient(135deg,#6366F1,#A855F7)'"
-            onmouseout="this.style.transform='scale(1)';this.style.background='linear-gradient(135deg,#4F46E5,#7C3AED)'"
-            >&#171;</button>
-        </div>
+        <div id="open-sidebar-area"></div>
         """,
         unsafe_allow_html=True
     )
+    col_btn, col_spacer = st.columns([1, 20])
+    with col_btn:
+        if st.button("»", key="open_sidebar_btn", help="Buka Sidebar"):
+            st.session_state.sidebar_open = True
+            st.rerun()
+
+with st.sidebar:
+    # ── Tombol tutup sidebar (native Streamlit button) ───────────────────
+    st.markdown(
+        """
+        <style>
+        /* Sembunyikan label default pada tombol close agar hanya simbol terlihat */
+        div[data-testid="stSidebar"] > div:first-child { padding-top: 8px !important; }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    close_col1, close_col2 = st.columns([6, 1])
+    with close_col2:
+        if st.button("«", key="close_sidebar_btn", help="Tutup Sidebar"):
+            st.session_state.sidebar_open = False
+            st.rerun()
+
     st.header("🔮 Input Settings")
     uploaded_file = st.file_uploader("Upload Historical Data (.csv / .xlsx)", type=["csv", "xlsx"])
     st.divider()
