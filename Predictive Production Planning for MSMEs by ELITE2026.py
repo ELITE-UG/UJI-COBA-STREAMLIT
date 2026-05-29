@@ -241,6 +241,17 @@ st.markdown("""
         height: 16px !important;
         visibility: visible !important;
     }
+
+     /* Hapus tulisan keyboard_double_arrow_left/right */
+    [data-testid="stSidebarCollapseButton"] button span,
+    [data-testid="collapsedControl"] button span,
+    button[aria-label="Close sidebar"] span,
+    button[aria-label="Open sidebar"] span {
+        display: none !important;
+        font-size: 0 !important;
+        color: transparent !important;
+        visibility: hidden !important;
+    }
     
     hr {
         margin: 1.5rem 0 !important;
