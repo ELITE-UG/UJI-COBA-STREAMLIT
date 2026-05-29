@@ -296,7 +296,39 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
+st.markdown("""
+    <style>
+    [data-testid="collapsedControl"] * {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    [data-testid="collapsedControl"] svg {
+        font-size: 18px !important;
+        width: 18px !important;
+        height: 18px !important;
+        color: #C3B1E1 !important;
+        fill: #C3B1E1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    [data-testid="collapsedControl"] {
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        z-index: 9999999 !important;
+        background: white !important;
+        border: 2px solid #C3B1E1 !important;
+        border-radius: 50% !important;
+        width: 32px !important;
+        height: 32px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        box-shadow: 0 2px 6px rgba(195,177,225,0.5) !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 # --- CORE PROCESSING AND CALCULATION FUNCTIONS ---
 
 def clean_numeric_series(series: pd.Series) -> pd.Series:
