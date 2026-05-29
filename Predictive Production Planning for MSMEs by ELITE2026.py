@@ -180,31 +180,65 @@ st.markdown("""
         color: #E6E6E6 !important;
         border-bottom-color: #C2D29EB !important;
     }
-   /* Tombol collapse/expand sidebar terlihat jelas */
+    /* Tombol collapse sidebar - bentuk panah kecil */
     [data-testid="stSidebarCollapseButton"] button,
-    [data-testid="collapsedControl"] button,
     button[aria-label="Close sidebar"],
     button[aria-label="Open sidebar"] {
-        background: #4F46E5 !important;
+        background: #ffffff !important;
+        border: 2px solid #4F46E5 !important;
         border-radius: 50% !important;
-        width: 36px !important;
-        height: 36px !important;
+        width: 28px !important;
+        height: 28px !important;
         visibility: visible !important;
         opacity: 1 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 2px 6px rgba(79,70,229,0.4) !important;
+        position: fixed !important;
+        top: 12px !important;
+        left: 12px !important;
+        z-index: 999999 !important;
     }
 
     [data-testid="stSidebarCollapseButton"] button svg,
-    [data-testid="collapsedControl"] button svg,
     button[aria-label="Close sidebar"] svg,
     button[aria-label="Open sidebar"] svg {
-        fill: #ffffff !important;
-        color: #ffffff !important;
-        width: 20px !important;
-        height: 20px !important;
+        fill: #4F46E5 !important;
+        color: #4F46E5 !important;
+        width: 16px !important;
+        height: 16px !important;
+        visibility: visible !important;
+    }
+
+    /* Tombol ketika sidebar tertutup tetap muncul di atas */
+    [data-testid="collapsedControl"] {
+        position: fixed !important;
+        top: 12px !important;
+        left: 12px !important;
+        z-index: 999999 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: flex !important;
+    }
+
+    [data-testid="collapsedControl"] button {
+        background: #ffffff !important;
+        border: 2px solid #4F46E5 !important;
+        border-radius: 50% !important;
+        width: 28px !important;
+        height: 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 2px 6px rgba(79,70,229,0.4) !important;
+    }
+
+    [data-testid="collapsedControl"] button svg {
+        fill: #4F46E5 !important;
+        color: #4F46E5 !important;
+        width: 16px !important;
+        height: 16px !important;
         visibility: visible !important;
     }
     
