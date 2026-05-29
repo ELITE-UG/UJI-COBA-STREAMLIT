@@ -181,10 +181,37 @@ st.markdown("""
         border-bottom-color: #C2D29EB !important;
     }
     /* Hapus tulisan keyboard_double */
-    [data-testid="collapsedControl"] span,
-    [data-testid="stSidebarCollapsedControl"] span {
-        display: none !important;
+    [data-testid="collapsedControl"] {
+        font-size: 0 !important;
+        color: transparent !important;
     }
+    [data-testid="collapsedControl"] * {
+        font-size: 0 !important;
+        color: transparent !important;
+    }
+    [data-testid="collapsedControl"] svg {
+        color: #4F46E5 !important;
+        fill: #4F46E5 !important;
+        font-size: 24px !important;
+        width: 24px !important;
+        height: 24px !important;
+        visibility: visible !important;
+    }
+
+    /* Tombol buka/tutup sidebar terlihat */
+    [data-testid="collapsedControl"],
+    button[data-testid="baseButton-header"] {
+        background: #ffffff !important;
+        border: 2px solid #4F46E5 !important;
+        border-radius: 50% !important;
+        width: 36px !important;
+        height: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        box-shadow: 0 2px 8px rgba(79,70,229,0.3) !important;
     
     hr {
         margin: 1.5rem 0 !important;
