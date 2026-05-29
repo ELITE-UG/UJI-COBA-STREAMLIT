@@ -180,7 +180,12 @@ st.markdown("""
         color: #E6E6E6 !important;
         border-bottom-color: #C2D29EB !important;
     }
-
+    /* Hapus tulisan keyboard_double */
+    [data-testid="collapsedControl"] span,
+    [data-testid="stSidebarCollapsedControl"] span {
+        display: none !important;
+    }
+    
     hr {
         margin: 1.5rem 0 !important;
         border-color: #A7C7E7 !important;
