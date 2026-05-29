@@ -180,38 +180,33 @@ st.markdown("""
         color: #E6E6E6 !important;
         border-bottom-color: #C2D29EB !important;
     }
-    /* Hapus tulisan keyboard_double */
-    [data-testid="collapsedControl"] {
-        font-size: 0 !important;
-        color: transparent !important;
-    }
-    [data-testid="collapsedControl"] * {
-        font-size: 0 !important;
-        color: transparent !important;
-    }
-    [data-testid="collapsedControl"] svg {
-        color: #4F46E5 !important;
-        fill: #4F46E5 !important;
-        font-size: 24px !important;
-        width: 24px !important;
-        height: 24px !important;
-        visibility: visible !important;
-    }
-
-    /* Tombol buka/tutup sidebar terlihat */
-    [data-testid="collapsedControl"],
-    button[data-testid="baseButton-header"] {
-        background: #ffffff !important;
-        border: 2px solid #4F46E5 !important;
+   /* Tombol collapse/expand sidebar terlihat jelas */
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button,
+    button[aria-label="Close sidebar"],
+    button[aria-label="Open sidebar"] {
+        background: #4F46E5 !important;
         border-radius: 50% !important;
         width: 36px !important;
         height: 36px !important;
+        visibility: visible !important;
+        opacity: 1 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    }
+
+    [data-testid="stSidebarCollapseButton"] button svg,
+    [data-testid="collapsedControl"] button svg,
+    button[aria-label="Close sidebar"] svg,
+    button[aria-label="Open sidebar"] svg {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+        width: 20px !important;
+        height: 20px !important;
         visibility: visible !important;
-        opacity: 1 !important;
-        box-shadow: 0 2px 8px rgba(79,70,229,0.3) !important;
+    }
     
     hr {
         margin: 1.5rem 0 !important;
